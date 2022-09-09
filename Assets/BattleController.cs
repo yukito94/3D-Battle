@@ -21,11 +21,14 @@ public class BattleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    hp = maxHp; //初期値はそのまま
+        hp = maxHp; //初期値はそのまま
 
-    HPGauge.maxValue = maxHp;
-    HPGauge.value = maxHp;
+        HPGauge.maxValue = maxHp;
+        HPGauge.value = maxHp;
     
+
+        //開始瞬間にダメージが0になるのを防ぐ為に記述(仮)
+        attack = Random.Range(11, 99); //(仮記述)
     }
 
 
@@ -39,22 +42,21 @@ public class BattleController : MonoBehaviour
             hp = 0;
         }
         HPGauge.value = hp;
-
     }
 
     // Update is called once per frame
     void Update()
     {
         //再生端末の性能・環境に偏らず一定時間を設定（Time.deltaTime）
+        //攻撃反撃は4秒で完了するようにしたい。その為、乱数の更新時間を1.9秒とする(2秒だと攻撃反撃が同じ値になる為に少し早めにする。要対策？)
         attackTime -= Time.deltaTime;
         if (attackTime <= 0.0) {
-        attackTime = 3.0f;
+            attackTime = 1.9f;
     
-        //攻撃力はその都度変更する必要がある為、ここに記載（毎秒１回攻撃する事となっているがUpdateはフレームで動いてるため、どう判定されてるか要調査）
-        attack = Random.Range(1, 99);    //攻撃力
+            //攻撃力はその都度変更する必要がある為、ここに記載
+            attack = Random.Range(11, 99);    //攻撃力
 
-        //（前衛と後衛の概念を追加する場合はここに記載する）
-    }
-    
+            //前衛と後衛の概念を追加する場合はここに記載する
+        }
     }
 }

@@ -20,34 +20,43 @@ public class BattleSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         //開始時はplayerが先行に設定
         PlayerTurn = true;
+
+        Invoke("Update", 3f);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-    //再生端末の性能・環境に偏らず一定時間で攻撃できる（Time.deltaTime）
-    xtime -= Time.deltaTime;
-    if (xtime <= 0.0) {
-        xtime = 3.0f;
+        //再生端末の性能・環境に偏らず一定時間で攻撃できる（Time.deltaTime）
+        xtime -= Time.deltaTime;
+        if (xtime <= 0.0) {
+            xtime = 4.0f;
 
-        //ここからバトル周りの処理
-        //playerがenemyを攻撃する
-        enemy.onDamage(player.attack);
-        PlayerTurn = false;
+            //ここからバトル周りの処理
+            //playerがenemyを攻撃する
+            enemy.onDamage(player.attack);
+            PlayerTurn = false;
 
-        Debug.Log("Enemyダメージ" + player.attack);
+            Debug.Log("Enemyダメージ" + player.attack);
+
+            //2秒後にPlayerTurnSを呼び出す。こうすると3秒で攻撃反撃が完結する
+            Invoke("PlayerTurnS", 2f);
+        }
     }
 
-    //エネミーの攻撃に秒数は関係ない為、秒数のif文の外に記載する(その為にif!を使用して判断)
-    if(!PlayerTurn){
-        PlayerTurn = true;
-        player.onDamage(enemy.attack);
-        
-        Debug.Log("Playerダメージ" + enemy.attack);
+    void PlayerTurnS()
+    {
+        //エネミーの攻撃に秒数は関係ない為、秒数のif文の外に記載する(その為にif!を使用して判断)
+        if(!PlayerTurn){
+
+            PlayerTurn = true;
+            player.onDamage(enemy.attack);
+            Debug.Log("Playerダメージ" + player.attack);
+        } 
     }
-        
-    }
+
 }
