@@ -14,6 +14,10 @@ public class BattleController : MonoBehaviour
 
     public int attack; //攻撃力
 
+    //おおよその時間設定（一定時間で攻撃しあう）
+    private float attackTime;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,11 +45,16 @@ public class BattleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //再生端末の性能・環境に偏らず一定時間を設定（Time.deltaTime）
+        xtime -= Time.deltaTime;
+        if (xtime <= 0.0) {
+        xtime = 1.0f;
+    
+        //攻撃力はその都度変更する必要がある為、ここに記載（毎秒１回攻撃する事となっているがUpdateはフレームで動いてるため、どう判定されてるか要調査）
+        attack = Random.Range(1, 99);    //攻撃力
 
-    //攻撃力はその都度変更する必要がある為、ここに記載（毎秒１回攻撃する事となっているがUpdateはフレームで動いてるため、どう判定されてるか要調査）
-    attack = Random.Range(1, 99);    //攻撃力
-
-    //（前衛と後衛の概念を追加する場合はここに記載する）
-        
+        //（前衛と後衛の概念を追加する場合はここに記載する）
+    }
+    
     }
 }
