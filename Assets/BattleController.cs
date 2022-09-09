@@ -46,9 +46,9 @@ public class BattleController : MonoBehaviour
     void Update()
     {
         //再生端末の性能・環境に偏らず一定時間を設定（Time.deltaTime）
-        xtime -= Time.deltaTime;
-        if (xtime <= 0.0) {
-        xtime = 1.0f;
+        attackTime -= Time.deltaTime;
+        if (attackTime <= 0.0) {
+        attackTime = 3.0f;
     
         //攻撃力はその都度変更する必要がある為、ここに記載（毎秒１回攻撃する事となっているがUpdateはフレームで動いてるため、どう判定されてるか要調査）
         attack = Random.Range(1, 99);    //攻撃力

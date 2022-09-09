@@ -31,7 +31,7 @@ public class BattleSystem : MonoBehaviour
     //再生端末の性能・環境に偏らず一定時間で攻撃できる（Time.deltaTime）
     xtime -= Time.deltaTime;
     if (xtime <= 0.0) {
-        xtime = 1.0f;
+        xtime = 3.0f;
 
         //ここからバトル周りの処理
         //playerがenemyを攻撃する
@@ -41,7 +41,7 @@ public class BattleSystem : MonoBehaviour
         Debug.Log("Enemyダメージ" + player.attack);
     }
 
-    //エネミーの攻撃に秒数は関係ない為、秒数のif文の外に記載する
+    //エネミーの攻撃に秒数は関係ない為、秒数のif文の外に記載する(その為にif!を使用して判断)
     if(!PlayerTurn){
         PlayerTurn = true;
         player.onDamage(enemy.attack);
