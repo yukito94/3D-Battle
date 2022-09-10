@@ -9,7 +9,7 @@ public class BattleController : MonoBehaviour
     public Slider HPGauge;
 
     //ユニットが何を持っているかを宣言する
-    int hp; //現在のhp
+    public int hp; //現在のhp
     int maxHp = 1000;  //最大のhp(本作は敵味方共に1000とする)
 
     public int attack; //攻撃力
