@@ -9,6 +9,9 @@ public class BattleSystem : MonoBehaviour
     //おおよその時間設定（一定時間で攻撃しあう）
     private float xtime;
 
+    //攻撃反撃
+    bool PlayerTurn;
+
     //取得する情報
     //publicを追加することで他のデーター(この場合BattleController)から呼び込める
     public BattleController player; //わかりやすくするために二つ使用
@@ -17,9 +20,7 @@ public class BattleSystem : MonoBehaviour
     //ダメージカウント
     int playerHp;    //リアルタイムの値を設定
     int enemyHp;
-
-    //攻撃反撃
-    bool PlayerTurn;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,7 @@ public class BattleSystem : MonoBehaviour
         //開始時はplayerが先行に設定
         PlayerTurn = true;
 
-        Invoke("Update", 3f); 
+        Invoke("Update", 2f); 
 
         //ダメージカウントの初期値を設定
         playerHp = player.maxHp;
@@ -57,7 +58,7 @@ public class BattleSystem : MonoBehaviour
 
                 //クリア処理
                 if(enemyHp <= 0){
-
+                
                     Debug.Log("クリア！！");
                 }
 
@@ -82,7 +83,7 @@ public class BattleSystem : MonoBehaviour
             
             //ゲームオーバー処理
             if(playerHp <= 0){
-
+            
                 Debug.Log("Playerは倒れた");
             }
 
