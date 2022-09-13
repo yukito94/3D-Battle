@@ -11,8 +11,12 @@ public class BattleSystem : MonoBehaviour
 
     //取得する情報
     //publicを追加することで他のデーター(この場合BattleController)から呼び込める
-    public BattleController player;
+    public BattleController player; //わかりやすくするために二つ使用
     public BattleController enemy;
+
+    //ダメージカウント
+    int playerHp;    //リアルタイムの値を設定
+    int enemyHp;
 
     //攻撃反撃
     bool PlayerTurn;
@@ -24,59 +28,46 @@ public class BattleSystem : MonoBehaviour
         //開始時はplayerが先行に設定
         PlayerTurn = true;
 
-        //Invoke("Update", 3f); 不要になったら削除
-        StartCoroutine("BattleStart");
+        Invoke("Update", 3f); 
+
+        //ダメージカウントの初期値を設定
+        playerHp = player.maxHp;
+        enemyHp = enemy.maxHp;
     }
 
 
-    IEnumerator BattleStart()
+    // Update is called once per frame
+    void Update()
     {
-        while(true){
-            yield return new WaitForSeconds(2.0f);
+
+
+            //再生端末の性能・環境に偏らず一定時間で攻撃できる（Time.deltaTime）
+            xtime -= Time.deltaTime;
+            if (xtime <= 0.0) {
+                xtime = 4.0f;
 
                 //ここからバトル周りの処理
                 //playerがenemyを攻撃する
                 enemy.onDamage(player.attack);
                 PlayerTurn = false;
 
-                Debug.Log("Enemyダメージ" + player.attack);
+                enemyHp -= player.attack;  //ダメージカウント
+                Debug.Log("Enemyダメージ" + player.attack　+　"。HP残量" + enemyHp);
 
-            yield return new WaitForSeconds(2.0f);
 
-                //エネミーの攻撃に秒数は関係ない為、秒数のif文の外に記載する(その為にif!を使用して判断)
-                if(!PlayerTurn){
+                //クリア処理
+                if(enemyHp <= 0){
 
-                    PlayerTurn = true;
-                    player.onDamage(enemy.attack);
-                    Debug.Log("Playerダメージ" + enemy.attack);
-                } 
-        }
+                    Debug.Log("クリア！！");
+                }
+
+                //2秒後にPlayerTurnSを呼び出す。こうすると4秒で攻撃反撃が完結する
+                Invoke("PlayerTurnS", 2.0f);
+            }
     }
 
 
-    /*☆★下記、秒数で切り替えてた時のコード。コールチンが安定し、問題なければ削除する事★☆
-    // Update is called once per frame
-    void Update()
-    {
 
-        //再生端末の性能・環境に偏らず一定時間で攻撃できる（Time.deltaTime）
-        xtime -= Time.deltaTime;
-        if (xtime <= 0.0) {
-            xtime = 4.0f;
-
-            //ここからバトル周りの処理
-            //playerがenemyを攻撃する
-            enemy.onDamage(player.attack);
-            PlayerTurn = false;
-
-            Debug.Log("Enemyダメージ" + player.attack);
-
-            //2秒後にPlayerTurnSを呼び出す。こうすると4秒で攻撃反撃が完結する
-            Invoke("PlayerTurnS", 2.0f);
-        }
-    }
-
- 
     void PlayerTurnS()
     {
         //エネミーの攻撃に秒数は関係ない為、秒数のif文の外に記載する(その為にif!を使用して判断)
@@ -84,8 +75,17 @@ public class BattleSystem : MonoBehaviour
 
             PlayerTurn = true;
             player.onDamage(enemy.attack);
-            Debug.Log("Playerダメージ" + enemy.attack);
+
+            playerHp -= enemy.attack;  //ダメージカウント
+            Debug.Log("Playerダメージ" + enemy.attack　+　"。HP残量" + playerHp);
+
+            
+            //ゲームオーバー処理
+            if(playerHp <= 0){
+
+                Debug.Log("Playerは倒れた");
+            }
+
         } 
     }
-    */
 }

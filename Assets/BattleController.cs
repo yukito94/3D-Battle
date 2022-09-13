@@ -10,7 +10,7 @@ public class BattleController : MonoBehaviour
 
     //ユニットが何を持っているかを宣言する
     public int hp; //現在のhp
-    int maxHp = 1000;  //最大のhp(本作は敵味方共に1000とする)
+    public int maxHp = 1000;  //最大のhp(本作は敵味方共に1000とする)
 
     public int attack; //攻撃力
 
@@ -25,7 +25,6 @@ public class BattleController : MonoBehaviour
 
         HPGauge.maxValue = maxHp;
         HPGauge.value = maxHp;
-    
 
         //開始瞬間にダメージが0になるのを防ぐ為に記述(仮)
         attack = Random.Range(11, 99); //(仮記述)
